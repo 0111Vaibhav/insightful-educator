@@ -1,0 +1,167 @@
+
+{
+  "classes": [
+    {
+      "id": 1,
+      "name": "Advanced Mathematics",
+      "students": [
+        {
+          "id": 101,
+          "name": "Emma Thompson",
+          "avatar": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=100&h=100",
+          "grades": [
+            {"assignment": "Mid-term Exam", "score": 92, "date": "2023-10-15"},
+            {"assignment": "Problem Set 3", "score": 88, "date": "2023-10-10"},
+            {"assignment": "Group Project", "score": 95, "date": "2023-10-05"}
+          ],
+          "attendance": 95,
+          "participation": 85
+        },
+        {
+          "id": 102,
+          "name": "James Wilson",
+          "avatar": "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&q=80&w=100&h=100",
+          "grades": [
+            {"assignment": "Mid-term Exam", "score": 78, "date": "2023-10-15"},
+            {"assignment": "Problem Set 3", "score": 85, "date": "2023-10-10"},
+            {"assignment": "Group Project", "score": 90, "date": "2023-10-05"}
+          ],
+          "attendance": 88,
+          "participation": 90
+        },
+        {
+          "id": 103,
+          "name": "Sophia Chen",
+          "avatar": "https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?auto=format&fit=crop&q=80&w=100&h=100",
+          "grades": [
+            {"assignment": "Mid-term Exam", "score": 95, "date": "2023-10-15"},
+            {"assignment": "Problem Set 3", "score": 92, "date": "2023-10-10"},
+            {"assignment": "Group Project", "score": 89, "date": "2023-10-05"}
+          ],
+          "attendance": 98,
+          "participation": 95
+        }
+      ],
+      "averageGrade": 89,
+      "recentAssignments": [
+        "Mid-term Exam",
+        "Problem Set 3",
+        "Group Project"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Computer Science 101",
+      "students": [
+        {
+          "id": 201,
+          "name": "Ethan Jackson",
+          "avatar": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=100&h=100",
+          "grades": [
+            {"assignment": "Programming Quiz", "score": 88, "date": "2023-10-17"},
+            {"assignment": "Algorithm Project", "score": 92, "date": "2023-10-08"},
+            {"assignment": "Database Design", "score": 85, "date": "2023-10-01"}
+          ],
+          "attendance": 92,
+          "participation": 88
+        },
+        {
+          "id": 202,
+          "name": "Olivia Martinez",
+          "avatar": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=100&h=100",
+          "grades": [
+            {"assignment": "Programming Quiz", "score": 95, "date": "2023-10-17"},
+            {"assignment": "Algorithm Project", "score": 98, "date": "2023-10-08"},
+            {"assignment": "Database Design", "score": 96, "date": "2023-10-01"}
+          ],
+          "attendance": 98,
+          "participation": 95
+        }
+      ],
+      "averageGrade": 92,
+      "recentAssignments": [
+        "Programming Quiz",
+        "Algorithm Project",
+        "Database Design"
+      ]
+    },
+    {
+      "id": 3,
+      "name": "World History",
+      "students": [
+        {
+          "id": 301,
+          "name": "Noah Taylor",
+          "avatar": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=100&h=100",
+          "grades": [
+            {"assignment": "Essay: Industrial Revolution", "score": 87, "date": "2023-10-18"},
+            {"assignment": "Period Research", "score": 84, "date": "2023-10-12"},
+            {"assignment": "Oral Presentation", "score": 90, "date": "2023-10-03"}
+          ],
+          "attendance": 90,
+          "participation": 92
+        },
+        {
+          "id": 302,
+          "name": "Ava Williams",
+          "avatar": "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=100&h=100",
+          "grades": [
+            {"assignment": "Essay: Industrial Revolution", "score": 94, "date": "2023-10-18"},
+            {"assignment": "Period Research", "score": 91, "date": "2023-10-12"},
+            {"assignment": "Oral Presentation", "score": 93, "date": "2023-10-03"}
+          ],
+          "attendance": 95,
+          "participation": 96
+        }
+      ],
+      "averageGrade": 90,
+      "recentAssignments": [
+        "Essay: Industrial Revolution",
+        "Period Research",
+        "Oral Presentation"
+      ]
+    }
+  ],
+  "recentActivity": [
+    {"type": "graded", "class": "Advanced Mathematics", "item": "Mid-term Exam", "date": "2023-10-15"},
+    {"type": "feedback", "class": "World History", "item": "Essay: Industrial Revolution", "date": "2023-10-18"},
+    {"type": "submission", "class": "Computer Science 101", "item": "Programming Quiz", "date": "2023-10-17"}
+  ],
+  "performance": {
+    "monthly": [
+      {"month": "May", "average": 82},
+      {"month": "Jun", "average": 85},
+      {"month": "Jul", "average": 84},
+      {"month": "Aug", "average": 87},
+      {"month": "Sep", "average": 89},
+      {"month": "Oct", "average": 91}
+    ],
+    "classComparison": [
+      {"class": "Advanced Mathematics", "thisMonth": 89, "lastMonth": 86},
+      {"class": "Computer Science 101", "thisMonth": 92, "lastMonth": 89},
+      {"class": "World History", "thisMonth": 90, "lastMonth": 88}
+    ]
+  },
+  "feedbackTemplates": [
+    {
+      "id": 1,
+      "name": "Excellent Work",
+      "content": "Your work demonstrates a thorough understanding of the subject matter. The depth of analysis and attention to detail are impressive. Keep up the excellent work!"
+    },
+    {
+      "id": 2,
+      "name": "Good Effort",
+      "content": "You've shown good effort in this assignment. Your understanding of key concepts is evident, though there's room for more detailed exploration in some areas."
+    },
+    {
+      "id": 3,
+      "name": "Needs Improvement",
+      "content": "While there are some good points in your work, it would benefit from a deeper engagement with the course material. I encourage you to review the key concepts and consider scheduling a meeting to discuss areas for improvement."
+    },
+    {
+      "id": 4,
+      "name": "Creative Approach",
+      "content": "I was particularly impressed by the creative approach you took with this assignment. Your unique perspective shows both understanding and original thinking."
+    }
+  ]
+}
