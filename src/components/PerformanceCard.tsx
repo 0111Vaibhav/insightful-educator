@@ -1,27 +1,14 @@
-
 import React, { useState, useEffect } from 'react';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from 'recharts';
 import { ChevronUp } from 'lucide-react';
+import { useQuery } from '@tanstack/react-query';
+import { fetchPerformance } from '@/services/firebaseService';
 
 const PerformanceCard: React.FC = () => {
-  const [performance, setPerformance] = useState<any>(null);
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch('/student-data.json');
-        const data = await response.json();
-        setPerformance(data.performance);
-        setIsLoading(false);
-      } catch (error) {
-        console.error('Error fetching performance data:', error);
-        setIsLoading(false);
-      }
-    };
-
-    fetchData();
-  }, []);
+  const { data: performance, isLoading, error } = useQuery({
+    queryKey: ['performance'],
+    queryFn: fetchPerformance
+  });
 
   if (isLoading) {
     return (
@@ -31,11 +18,25 @@ const PerformanceCard: React.FC = () => {
     );
   }
 
+  if (error || !performance) {
+    return (
+      <div className="educator-card h-64 flex items-center justify-center">
+        <p className="text-red-500">Error loading performance data. Please try again later.</p>
+      </div>
+    );
+  }
+
   // Find the difference between this month and last month
   const latestMonth = performance.monthly[performance.monthly.length - 1];
   const previousMonth = performance.monthly[performance.monthly.length - 2];
-  const difference = latestMonth.average - previousMonth.average;
-  const percentChange = ((difference / previousMonth.average) * 100).toFixed(1);
+  
+  let difference = 0;
+  let percentChange = "0.0";
+  
+  if (latestMonth && previousMonth) {
+    difference = latestMonth.average - previousMonth.average;
+    percentChange = ((difference / previousMonth.average) * 100).toFixed(1);
+  }
 
   const CustomTooltip = ({ active, payload, label }: any) => {
     if (active && payload && payload.length) {

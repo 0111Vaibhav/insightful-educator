@@ -1,42 +1,29 @@
-
 import React, { useState, useEffect } from 'react';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { Check, Clock, AlertCircle } from 'lucide-react';
-
-type GradeData = {
-  id: number;
-  name: string;
-  students: any[];
-  averageGrade: number;
-  recentAssignments: string[];
-};
+import { fetchClasses, GradeData } from '@/services/firebaseService';
+import { useQuery } from '@tanstack/react-query';
 
 const GradingOverview: React.FC = () => {
-  const [classes, setClasses] = useState<GradeData[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
   const isMobile = useIsMobile();
-
-  useEffect(() => {
-    // Simulate real-time data fetch with a small delay
-    const fetchData = async () => {
-      try {
-        const response = await fetch('/student-data.json');
-        const data = await response.json();
-        setClasses(data.classes);
-        setIsLoading(false);
-      } catch (error) {
-        console.error('Error fetching grading data:', error);
-        setIsLoading(false);
-      }
-    };
-
-    fetchData();
-  }, []);
+  
+  const { data: classes, isLoading, error } = useQuery({
+    queryKey: ['classes'],
+    queryFn: fetchClasses
+  });
 
   if (isLoading) {
     return (
       <div className="educator-card animate-pulse h-64 flex items-center justify-center">
         <p className="text-educator-muted">Loading grading overview...</p>
+      </div>
+    );
+  }
+  
+  if (error || !classes) {
+    return (
+      <div className="educator-card h-64 flex items-center justify-center">
+        <p className="text-red-500">Error loading data. Please try again later.</p>
       </div>
     );
   }

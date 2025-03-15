@@ -1,50 +1,45 @@
-
 import React, { useState, useEffect } from 'react';
 import { Trash2, Edit, Plus } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
-
-type FeedbackTemplateType = {
-  id: number;
-  name: string;
-  content: string;
-};
+import { useQuery } from '@tanstack/react-query';
+import { collection, addDoc, doc, updateDoc, deleteDoc } from 'firebase/firestore';
+import { db } from '@/lib/firebase';
+import { fetchFeedbackTemplates, FeedbackTemplate as FeedbackTemplateType } from '@/services/firebaseService';
 
 const FeedbackTemplate: React.FC = () => {
-  const [templates, setTemplates] = useState<FeedbackTemplateType[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
   const [editingId, setEditingId] = useState<number | null>(null);
   const [isAdding, setIsAdding] = useState(false);
   const [formData, setFormData] = useState({ name: '', content: '' });
   const { toast } = useToast();
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch('/student-data.json');
-        const data = await response.json();
-        setTemplates(data.feedbackTemplates);
-        setIsLoading(false);
-      } catch (error) {
-        console.error('Error fetching feedback templates:', error);
-        setIsLoading(false);
-      }
-    };
-
-    fetchData();
-  }, []);
+  const { data: templates = [], isLoading, refetch } = useQuery({
+    queryKey: ['feedbackTemplates'],
+    queryFn: fetchFeedbackTemplates
+  });
 
   const handleEdit = (template: FeedbackTemplateType) => {
     setEditingId(template.id);
     setFormData({ name: template.name, content: template.content });
   };
 
-  const handleDelete = (id: number) => {
-    setTemplates(templates.filter(t => t.id !== id));
-    toast({
-      title: "Template deleted",
-      description: "Feedback template has been removed successfully.",
-      duration: 3000,
-    });
+  const handleDelete = async (id: number) => {
+    try {
+      await deleteDoc(doc(db, "feedbackTemplates", id.toString()));
+      refetch();
+      toast({
+        title: "Template deleted",
+        description: "Feedback template has been removed successfully.",
+        duration: 3000,
+      });
+    } catch (error) {
+      console.error("Error deleting template:", error);
+      toast({
+        title: "Error",
+        description: "Failed to delete the template. Please try again.",
+        variant: "destructive",
+        duration: 3000,
+      });
+    }
   };
 
   const handleAdd = () => {
@@ -52,7 +47,7 @@ const FeedbackTemplate: React.FC = () => {
     setFormData({ name: '', content: '' });
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     if (!formData.name || !formData.content) {
       toast({
         title: "Error",
@@ -63,30 +58,42 @@ const FeedbackTemplate: React.FC = () => {
       return;
     }
 
-    if (editingId) {
-      // Update existing template
-      setTemplates(templates.map(t => 
-        t.id === editingId ? { ...t, ...formData } : t
-      ));
-      setEditingId(null);
+    try {
+      if (editingId) {
+        // Update existing template
+        await updateDoc(doc(db, "feedbackTemplates", editingId.toString()), formData);
+        setEditingId(null);
+        toast({
+          title: "Template updated",
+          description: "Your changes have been saved.",
+          duration: 3000,
+        });
+      } else if (isAdding) {
+        // Add new template
+        const newId = Math.max(...templates.map(t => t.id), 0) + 1;
+        await addDoc(collection(db, "feedbackTemplates"), { 
+          id: newId,
+          ...formData 
+        });
+        setIsAdding(false);
+        toast({
+          title: "Template added",
+          description: "New feedback template has been created.",
+          duration: 3000,
+        });
+      }
+      
+      setFormData({ name: '', content: '' });
+      refetch();
+    } catch (error) {
+      console.error("Error saving template:", error);
       toast({
-        title: "Template updated",
-        description: "Your changes have been saved.",
-        duration: 3000,
-      });
-    } else if (isAdding) {
-      // Add new template
-      const newId = Math.max(...templates.map(t => t.id), 0) + 1;
-      setTemplates([...templates, { id: newId, ...formData }]);
-      setIsAdding(false);
-      toast({
-        title: "Template added",
-        description: "New feedback template has been created.",
+        title: "Error",
+        description: "Failed to save the template. Please try again.",
+        variant: "destructive",
         duration: 3000,
       });
     }
-    
-    setFormData({ name: '', content: '' });
   };
 
   const handleCancel = () => {
